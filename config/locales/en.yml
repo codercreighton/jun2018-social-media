@@ -31,3 +31,24 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      tweet:
+        message: "A Tweet"
+      user:
+        username: "A username"
+    errors:
+      models:
+        tweet:
+          attributes:
+            message:
+              blank: "must be at least 140 characters"
+              too_long: "can not be so wordy!  Keep it brief!"
+        user:
+          attributes:
+            username:
+              blank: "should be given so we can identify your tweets!"
+              taken: "must not be already in use.  Be unique!"
+              
+
+
