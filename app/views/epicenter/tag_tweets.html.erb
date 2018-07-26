@@ -1,0 +1,10 @@
+<h3>Here's what people are saying about <strong><%= @tag.phrase %></strong>:</h3>
+
+
+	<% @tag.tweets.each do |tweet| %>
+		<div class="well">
+			<p><%= image_tag tweet.user.avatar.thumb %> <%= link_to "@#{tweet.user.username}", show_user_path(id: tweet.user.id) %> • <%= time_ago_in_words(tweet.created_at) %></p>
+			<p><%= tweet.message.html_safe %></p>
+		</div>	
+	<% end %>
+
