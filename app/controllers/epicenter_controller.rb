@@ -1,18 +1,34 @@
 class EpicenterController < ApplicationController
 
-	before_action :authenticate_user!
-	
-  def feed
-  	@following_tweets =[]
+	before_action :authenticate_user!, except: [:feed]
 
-  	Tweet.all.each do |tweet|
-  		if current_user.following.include?(tweet.user_id) || current_user.id == tweet.user_id
-  			@following_tweets.push(tweet)
-  		end
-  	end		
-  end
+  def feed
+      @tweet = Tweet.new
+      @following_tweets =[]
+
+      Tweet.all.each do |tweet|
+        if current_user.following.include?(tweet.user_id) || current_user.id == tweet.user_id
+          @following_tweets.push(tweet)
+        end
+      end 
+  
+
+
+  	# if user_signed_in?
+	  # 	@following_tweets =[]
+
+	  # 	Tweet.all.each do |tweet|
+	  # 		if current_user.following.include?(tweet.user_id) || current_user.id == tweet.user_id
+	  # 			@following_tweets.push(tweet)
+	  # 		end
+	  # 	end	
+	  # else
+	  # 	redirect_to tweets_path
+	  # end	
+	end
 
   def show_user
+    @tweet = Tweet.new
   	@user = User.find(params[:id])
   end
 

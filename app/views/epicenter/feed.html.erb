@@ -1,11 +1,20 @@
-<h1>Welcome @<%= current_user.username %>!  Here is your feed.</h1>
-<h3>See what your "friends" are talking about!</h3>
-
+<center><h3>Welcome @<%= current_user.username %>!  Here is your feed.</h3>
+<p>See what your "friends" are talking about!</p></center>
 <div>
+	<%= render 'tweets/form', tweet: @tweet %>
+</div>
+
+
+<div class="well">
 	<% @following_tweets.each do |tweet| %>
-		<div>
-			<p>@<%= link_to tweet.user.username, show_user_path(id: tweet.user.id) %> said...</p>
-			<p><%= tweet.message.html_safe %></p>
+		<div class="media">
+		  <div class="media-left">
+		      <%= image_tag tweet.user.avatar.thumb, class: 'img-circle' %>
+		  </div>
+		  <div class="media-body">
+		    <h4 class="media-heading"><%= time_ago_in_words(tweet.created_at) %> ago, @<%= link_to tweet.user.username, show_user_path(id: tweet.user.id) %> said...</h4>
+		    <p><%= tweet.message.html_safe %></p>
+		  </div>
 		</div>
 	<% end %>
 </div>

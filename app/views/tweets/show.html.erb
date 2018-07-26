@@ -1,20 +1,23 @@
 <p id="notice"><%= notice %></p>
 
-<div>
-	<%=  image_tag @tweet.user.avatar.show %>
+<center>
+	<div>
+		<%=  image_tag @tweet.user.avatar.show, class: "img-circle" %>
+	</div>
+
+	<br/>
+<div class="well">
+	<p>
+	  On <%=  @tweet.created_at.strftime('%B %e, %Y at %l:%M %P') %>, @<%= link_to @tweet.user.username, show_user_path(id: @tweet.user.id) %> said...
+	</p>
+	<p>
+	  
+	  <%= @tweet.message.html_safe %>
+	</p>
 </div>
-
-<p>
-  <strong>Message:</strong>
-  <%= @tweet.message %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  @<%= link_to @tweet.user.username, show_user_path(id: @tweet.user.id) %>
-</p>
-
+</center>
 <% if user_signed_in? && current_user.id == @tweet.user_id %>
 	<%= link_to 'Edit', edit_tweet_path(@tweet) %> |
 <% end %>
 <%= link_to 'Back', tweets_path %>
+

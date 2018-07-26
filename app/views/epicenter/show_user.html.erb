@@ -1,30 +1,40 @@
-<h1>@<%= @user.username %>'s profile page</h1>
+<center>
+	<h1>@<%= @user.username %>'s profile page</h1>
 
 
-<div>
-	<%= image_tag @user.avatar.show %>
-</div>
-<p>Name: <%=  @user.name %></p>
-<p>Location; <%= @user.location %></p>
-<p>Bio: <%= @user.bio %></p>
+	<div>
+		<%= image_tag @user.avatar.show, class: "img-circle" %>
+	</div>
+	<p>Name: <%=  @user.name %></p>
+	<p>Location; <%= @user.location %></p>
+	<p>Bio: <%= @user.bio %></p>
 
 
-<p>
+	<p>
     <% if current_user.following.include?(@user.id) %>
         <%= link_to "Unfollow", unfollow_path(id: @user.id), class: "btn btn-danger" %>
     <% else %>
         <% if current_user.id != @user.id %>
-	    <%= link_to "Follow", now_following_path(id: @user.id), class: "btn btn-primary" %>
-	<% end %>
-    <% end %>
+	    		<%= link_to "Follow", now_following_path(id: @user.id), class: "btn btn-primary" %>
+
+
+	    	<% else %>
+	    		<%= render 'tweets/form', tweet: @tweet %>
+				<% end %>
+  	<% end %>
 </p>
+</center>
 
-
-<% @user.tweets.each do |tweet| %>
-
-	<div>
-		<p>On <%=  tweet.created_at.strftime('%B %e, %Y at %l:%M %P') %>, @<%= tweet.user.username %> said...</p>
-		<p><%= tweet.message %></p>
-	</div>
-
-<% end %>
+<div class="well">
+	<% @user.tweets.each do |tweet| %>
+		<div class="media">
+		  <div class="media-left">
+		      <%= image_tag tweet.user.avatar.thumb, class: 'img-circle' %>
+		  </div>
+		  <div class="media-body">
+		    <h4 class="media-heading">On <%=  tweet.created_at.strftime('%B %e, %Y at %l:%M %P') %>, @<%= tweet.user.username %> said...</h4>
+		    <p><%= tweet.message.html_safe %></p>
+		  </div>
+		</div>
+	<% end %>
+</div>

@@ -41,14 +41,48 @@
                 <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
               </ul>
             </li>
+            <% else %>
+            	<li><%= link_to "Sign In", new_user_session_path %></li>
           <% end %>
         </ul>
       </div>
     </div>
   </nav>
   	<!-- end of navbar -->
+
+
   	<div class="container">
-	    <%= yield %>
-	  </div>
+  	<div class="row">
+
+  		<!-- The area for our stats -->
+  		<div class="col-lg-3">
+  			<div class="well">
+	  			<div class="user-stats">
+		  				<% if user_signed_in? %>
+			  				<%= image_tag current_user.avatar.show, class: "img-circle" %>
+			  				<h5><%= current_user.name %></h5>
+			  				<p>@<%= current_user.username %></p>
+			  				<p>Location: <%= current_user.location %></p>
+			  				<p><%= current_user.bio %></p>
+			  			<% else %>	
+			  			<h5>Sign in to be a part of the conversation!</h5>
+			  			<% end %>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	<!-- The area for our other pages -->
+  			<div class="col-lg-6 well">	
+			    <%= yield %>
+			  </div>
+
+			<!-- The area for what's trending -->
+		  <div class="col-lg-3">
+  			<div class="well">
+	  			<p>This is where what's trending goes</p>
+	  		</div>
+	  	</div>
+
+		</div>
+	</div>
   </body>
 </html>
