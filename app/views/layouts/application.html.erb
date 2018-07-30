@@ -20,13 +20,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <%= link_to "Home", root_path, class: "navbar-brand" %>
+        <%= link_to "Your Feed", root_path, class: "navbar-brand" %>
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
         	<li><%= link_to "All Tweets", tweets_path %></li>
           <li><%= link_to "Compose New Tweet", new_tweet_path %></li>
+          <li><%= link_to "All Users", all_users_path %></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
@@ -64,8 +65,10 @@
 			  				<p>@<%= current_user.username %></p>
 			  				<p>Location: <%= current_user.location %></p>
 			  				<p><%= current_user.bio %></p>
+                <p>Following: <%= link_to current_user.following.count, following_path(id: current_user.id)  %> | Followers: <%= link_to get_followers(current_user.id), followers_path(id: current_user.id) %> </p>
+
 			  			<% else %>	
-			  			<h5>Sign in to be a part of the conversation!</h5>
+			  			  <h5>Sign in to be a part of the conversation!</h5>
 			  			<% end %>
 	  			</div>
 	  		</div>
@@ -76,10 +79,21 @@
 			  </div>
 
 			<!-- The area for what's trending -->
-		  <div class="col-lg-3">
-  			<div class="well">
-	  			<p>This is where what's trending goes</p>
-	  		</div>
+   
+  		  <div class="col-lg-3">
+    			<div class="well">
+  	  			<h3>What's Trending!</h3>
+             <% hot_tags.each do |tag| %>
+                <%= link_to tag.phrase, tag_tweets_path(id: tag.id) %>
+              <% end %>
+          <% if user_signed_in? %>
+              <h3>Hottest Tweeter:</h3>
+              <p><%= image_tag top_tweeter.avatar.show, class: "img-circle" %></p>
+              <p><%= link_to "@#{top_tweeter.username}", show_user_path(id: top_tweeter.id) %> with <%= top_number_tweets(top_tweeter.id) %> tweets!</p>
+            <% end %>
+          </div>
+  	  	</div>
+      
 	  	</div>
 
 		</div>
